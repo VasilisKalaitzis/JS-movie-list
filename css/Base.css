@@ -1,0 +1,17 @@
+/* Theme and common classes */
+.color-pallete1 {
+  color: #000000;
+  background-color: #932023;
+}
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container {
+  padding: 15px;
+}
+
+.padding-block {
+  padding: 0px 5px;
+}

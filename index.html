@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="./css/App.css" />
+    <link rel="stylesheet" type="text/css" href="./css/Base.css" />
+    <link rel="stylesheet" type="text/css" href="./css/Layout.css" />
+    <link rel="stylesheet" type="text/css" href="./css/MovieList.css" />
+    <link rel="stylesheet" type="text/css" href="./css/MovieItem.css" />
+    <link rel="stylesheet" type="text/css" href="./css/Searchbar.css" />
+  </head>
+  <body>
+    <div class="App color-pallete1">
+      <div className="main-layout-grid">
+        <!-- Header -->
+
+        <!-- Main Content -->
+        <div class="main-container">
+          <div class="movie-handler">
+            <!-- Searchbar -->
+            <div class="sb-container flex-container">
+              <div class="input-block">
+                <input class="sb-element" type="text" placeholder="Search" />
+              </div>
+              <div class="button-block">
+                <button class="sb-element" onclick="loadDoc()">Search</button>
+              </div>
+            </div>
+
+            <!-- Movie list -->
+            <div
+              id="movieList"
+              class="movie-list flex-container container"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+      </div>
+    </div>
+
+    <script>
+      var loadDoc = function() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            debugger;
+            JSON.parse(this.response).Search.map(movie =>
+              render(
+                templateMovieItem(movie.Poster),
+                document.querySelector("#movieList")
+              )
+            );
+          }
+        };
+
+        xhttp.open(
+          "GET",
+          "http://www.omdbapi.com/?apikey=338f9a63&s=Happy",
+          true
+        );
+        xhttp.send();
+      };
+
+      function templateMovieItem(imgSrc) {
+        return `
+        <div class="flex-block movie-item-simple">
+                <img
+                  alt="MovieImage"
+                  src=${imgSrc}
+                />
+              </div>
+        `;
+      }
+
+      var render = function(template, node) {
+        node.innerHTML += template;
+      };
+    </script>
+  </body>
+</html>
