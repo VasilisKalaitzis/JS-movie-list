@@ -7,30 +7,37 @@
     <link rel="stylesheet" type="text/css" href="./css/MovieList.css" />
     <link rel="stylesheet" type="text/css" href="./css/MovieItem.css" />
     <link rel="stylesheet" type="text/css" href="./css/Searchbar.css" />
+    <script src="./components/MovieList/index.js"></script>
   </head>
   <body>
     <div class="App color-pallete1">
       <div className="main-layout-grid">
         <!-- Header -->
-
         <!-- Main Content -->
         <div class="main-container">
           <div class="movie-handler">
             <!-- Searchbar -->
             <div class="sb-container flex-container">
               <div class="input-block">
-                <input class="sb-element" type="text" placeholder="Search" />
+                <input
+                  id="inputSearch"
+                  class="sb-element"
+                  type="text"
+                  placeholder="Search"
+                />
               </div>
               <div class="button-block">
-                <button class="sb-element" onclick="loadDoc()">Search</button>
+                <button class="sb-element" onclick="showMovies()">
+                  Search
+                </button>
               </div>
             </div>
 
             <!-- Movie list -->
-            <div
+            <movie-list
               id="movieList"
               class="movie-list flex-container container"
-            ></div>
+            ></movie-list>
           </div>
         </div>
 
@@ -39,29 +46,33 @@
     </div>
 
     <script>
-      var loadDoc = function() {
+      // Display a list of movies
+      // Params
+      // number append: (1 = keep previous list) (0 = clear previous list)
+      var showMovies = (append = 0) => {
+        let container = document.querySelector("#movieList");
+
+        append === 0 ? clearNode(container) : null;
+
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
-            debugger;
             JSON.parse(this.response).Search.map(movie =>
-              render(
-                templateMovieItem(movie.Poster),
-                document.querySelector("#movieList")
-              )
+              render(templateMovieItem(movie.Poster), container)
             );
           }
         };
 
+        let query = document.querySelector("#inputSearch").value;
         xhttp.open(
           "GET",
-          "http://www.omdbapi.com/?apikey=338f9a63&s=Happy",
+          "http://www.omdbapi.com/?apikey=338f9a63&s=" + query,
           true
         );
         xhttp.send();
       };
 
-      function templateMovieItem(imgSrc) {
+      var templateMovieItem = imgSrc => {
         return `
         <div class="flex-block movie-item-simple">
                 <img
@@ -70,9 +81,12 @@
                 />
               </div>
         `;
-      }
+      };
 
-      var render = function(template, node) {
+      var clearNode = node => {
+        node.innerHTML = "";
+      };
+      var render = (template, node) => {
         node.innerHTML += template;
       };
     </script>
