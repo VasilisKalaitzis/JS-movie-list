@@ -1,39 +1,126 @@
-const tagName = "movie-handler";
-const template = document.createElement("template");
-template.innerHTML = `          
-<div class="movie-handler">
-    <!-- Searchbar -->
-    <div class="sb-container flex-container">
-    <div class="input-block">
-        <input
-        id="inputSearch"
-        class="sb-element"
-        type="text"
-        placeholder="Search"
-        />
-    </div>
-    <div class="button-block">
-        <button class="sb-element" onclick="showMovies()">
-        Search
-        </button>
-    </div>
-    </div>
+const tagNameMovieList = "movie-list";
 
-    <!-- Movie list -->
-    <movie-list
-    id="movieList"
-    class="movie-list flex-container container"
-    ></movie-list>
-</div>`;
+class MovieList {
+  constructor(container) {
+    var self = this;
+    self.container = container;
+    //self.movies can be used later for cache
+    self.movies = [];
 
-class MovieList extends HTMLElement {
-  connectedCallback() {
-    if (!this.shadowRoot) {
-      this.attachShadow({ mode: "open" });
-      this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.render();
+
+    self.movieContainer = self.container.getElementsByTagName(
+      "movie-list-template"
+    )[0];
+  }
+
+  // Add Movies to the MovieList
+  // Params
+  // (array) movies: an array of movies
+  addMovies(movies) {
+    var self = this;
+
+    if (movies.Response === "True" && movies.Search.length > 0) {
+      movies.Search.map(
+        movie => (
+          self.movies.push(movie),
+          self.renderMovieItem(
+            self.templateMovieItem(movie),
+            self.movieContainer
+          )
+        )
+      );
+    } else {
+      console.log(
+        "Error. MovieList.addMovies => movies is undefined or empty. message:" +
+          movies.Error
+      );
+      return 0;
     }
+
+    return 1;
+  }
+
+  // Remove Movies from the MovieList
+  // Params
+  // (array) movies: an array of movies
+  removeMovies(movies = []) {
+    var self = this;
+
+    // if no movies specified, delete the whole list
+    if (!movies.length > 0) {
+      self.clearNode();
+    }
+
+    return 1;
+  }
+
+  // Delete childs from node
+  // Params
+  // (htmlElement) node: The referrence of an HTML element
+  clearNode() {
+    var self = this;
+
+    self.movies = [];
+    self.movieContainer.innerHTML = ``;
+
+    return 1;
+  }
+
+  render() {
+    var self = this;
+
+    self.container.innerHTML = `       
+    <style> @import "./components/MovieList/style.css"; </style>
+    <movie-list-template
+    class="movie-list flex-container container"
+    >
+    </movie-list-template>
+    `;
+
+    return 1;
+  }
+
+  // Static template used for each movie item
+  // Params
+  // (string) imgSrc: The value of the HTML attribute src
+  templateMovieItem(movie) {
+    // ToDo: This should also become a individual component
+
+    let result;
+    try {
+      result = `
+      <div class="movie-item movie-item-simple">
+        <div class="movie-item-details">
+          <span>${movie.Title}</span>
+        </div>
+        <div class="movie-item-image">                
+          <img
+            alt="MovieImage"
+            src=${movie.Poster}
+          />
+        </div>
+      </div>
+      `;
+    } catch (err) {
+      console.log(
+        "Error. MovieList.templateMovieItem => message:" + err.message
+      );
+      return err;
+    }
+
+    return result;
+  }
+
+  // Render template to the node
+  // Params
+  // (html string) template: A string containing HTML code
+  // (htmlElement) node: The referrence of an HTML element
+  renderMovieItem(template, node) {
+    // ToDo: This should also become a individual component
+    node.innerHTML += template;
   }
 }
 
-const register = () => customElements.define(tagName, MovieList);
-window.WebComponents ? window.WebComponents.waitFor(register) : register();
+const registerMovieList = () =>
+  customElements.define(tagNameMovieList, MovieList);

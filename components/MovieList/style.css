@@ -1,0 +1,50 @@
+/* CSS for each movie block */
+.movie-list {
+  justify-content: center;
+}
+
+.movie-item {
+  position: relative;
+  margin: 15px;
+  width: 300px;
+  height: 446px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.movie-item-simple {
+  color: white;
+}
+
+.movie-item-simple .movie-item-details {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  z-index: 1;
+}
+
+.movie-item-image:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 75%,
+    rgba(0, 0, 0, 0.6)
+  );
+}
+/* stretch Image */
+.movie-item .movie-item-image,
+.movie-item img {
+  height: 100%;
+  width: 100%;
+}
+/* 
+.slideshow-wrapper:before {
+  content: '';
+
+} */

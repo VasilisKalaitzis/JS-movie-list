@@ -8,7 +8,7 @@ body {
   text-align: center;
   height: 100vh;
   overflow: hidden;
-  font-size: 1.7rem;
+  font-size: 2rem;
   font-family: serif;
   -webkit-tap-highlight-color: transparent;
 }
@@ -27,11 +27,6 @@ button:focus,
 li:focus,
 input:focus {
   outline: 0;
-}
-
-/* Hide scrollbars */
-::-webkit-scrollbar {
-  display: none;
 }
 
 a {

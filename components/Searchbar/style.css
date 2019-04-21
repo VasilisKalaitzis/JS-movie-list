@@ -1,0 +1,34 @@
+/* Search bar CSS */
+.sb-container {
+  background-color: inherit;
+}
+
+.sb-container .input-block {
+  flex-grow: 12;
+}
+
+.sb-container .button-block {
+  flex-grow: 1;
+}
+.sb-container .sb-element {
+  margin: 7px;
+  background-color: white;
+  border-radius: 15px;
+  border: 4px black solid;
+  padding: 10px 25px;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  font-size: 2.5rem;
+}
+
+.sb-container .input-block input {
+  /* If my eyes doesn't betray me, here we are using different font than usual */
+  font-family: arial;
+}
+
+.sb-container .button-block button {
+  /* If my eyes doesn't betray me, here we are using different font than usual */
+  font-family: serif;
+  font-weight: bold;
+  font-stretch: condensed;
+}
