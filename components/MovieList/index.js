@@ -83,7 +83,7 @@ class MovieList {
 
   // Static template used for each movie item
   // Params
-  // (string) imgSrc: The value of the HTML attribute src
+  // (object) movie: Contains movie row as it is returned from the API, unparsed
   templateMovieItem(movie) {
     // ToDo: This should also become a individual component
 
