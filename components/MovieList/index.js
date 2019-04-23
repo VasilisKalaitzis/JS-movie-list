@@ -85,7 +85,7 @@ class MovieList {
   // Params
   // (object) movie: Contains movie row as it is returned from the API, unparsed
   templateMovieItem(movie) {
-    // ToDo: This should also become a individual component
+    // ToDo: This should also become an individual component
 
     let result;
     try {
